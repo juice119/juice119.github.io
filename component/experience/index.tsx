@@ -1,4 +1,3 @@
-import { Badge } from 'reactstrap';
 import { DateTime, Duration } from 'luxon';
 
 import { PropsWithChildren } from 'react';
@@ -9,6 +8,7 @@ import { PreProcessingComponent } from '../common/PreProcessingComponent';
 import Util from '../common/Util';
 import { SectionHeader } from '../common/SectionHeader';
 import { Section } from '../common/PageLayout';
+import { ContentColumn, DateColumn, ExperienceRowLayout, TotalBadge, TotalLabel } from './styles';
 
 type Payload = IExperience.Payload;
 
@@ -22,21 +22,20 @@ export const Experience = {
 };
 
 function Component({ payload }: PropsWithChildren<{ payload: Payload }>) {
-  const totalPeriod = () => {
-    if (payload.disableTotalPeriod) {
-      return null;
-    }
-    return (
-      <span style={{ fontSize: '50%', marginLeft: '8px' }}>
-        <Badge>{getFormattingExperienceTotalDuration(payload)}</Badge>
-      </span>
-    );
-  };
-
   return (
     <Section>
       <EmptyRowCol>
-        <SectionHeader title="EXPERIENCE">{totalPeriod()}</SectionHeader>
+        <SectionHeader title="EXPERIENCE" />
+        {!payload.disableTotalPeriod && (
+          <ExperienceRowLayout>
+            <DateColumn>
+              <TotalLabel>TOTAL</TotalLabel>
+            </DateColumn>
+            <ContentColumn>
+              <TotalBadge>{getFormattingExperienceTotalDuration(payload)}</TotalBadge>
+            </ContentColumn>
+          </ExperienceRowLayout>
+        )}
         {payload.list.map((item, index) => (
           <ExperienceRow key={index.toString()} item={item} index={index} />
         ))}

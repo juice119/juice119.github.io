@@ -21,7 +21,7 @@ export interface Theme {
 export const lightTheme: Theme = {
   mode: 'light',
   colors: {
-    background: '#ffffff',
+    background: '#f1f5f9',
     cardBackground: '#f1f5f9',
     text: '#1e293b',
     textSecondary: '#64748b',

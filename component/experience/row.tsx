@@ -1,10 +1,26 @@
-import { Badge, Col, Row } from 'reactstrap';
-
 import { DateTime } from 'luxon';
 import { PropsWithChildren } from 'react';
 import { IExperience } from './IExperience';
-import { Style } from '../common/Style';
 import Util from '../common/Util';
+import {
+  ActiveBadge,
+  BadgeGroup,
+  CompanyBlock,
+  CompanyDate,
+  CompanyHeader,
+  ContentColumn,
+  DateColumn,
+  DescriptionList,
+  DurationBadge,
+  ExperienceRowLayout,
+  PositionTitle,
+  SkillKeywordList,
+  SkillKeywordPill,
+  SkillKeywordsBlock,
+  SkillKeywordsTitle,
+  StatusDot,
+  SubDate,
+} from './styles';
 
 type PositionWithDates = IExperience.Position & {
   startedAtDate: DateTime;
@@ -14,7 +30,6 @@ type PositionWithDates = IExperience.Position & {
 
 export default function ExperienceRow({
   item,
-  index,
 }: PropsWithChildren<{ item: IExperience.Item; index: number }>) {
   const positionsWithDates: PositionWithDates[] = item.positions.map((position) => ({
     ...position,
@@ -55,53 +70,42 @@ export default function ExperienceRow({
   const hasMultiplePositions = sortedPositions.length > 1;
 
   return (
-    <div>
-      {index > 0 && <hr />}
-      {/* 최상위 Row: 전체 재직 기간과 회사명 표시 */}
-      <Row>
-        <Col sm={12} md={3} className="text-md-right">
-          <h4 style={Style.gray}>{periodTitle}</h4>
-        </Col>
-        <Col sm={12} md={9}>
-          <h4 style={{ display: 'inline-flex', alignItems: 'center' }}>
-            {item.title}{' '}
-            <span style={{ fontSize: '65%', display: 'inline-flex', alignItems: 'center' }}>
-              {isCurrentlyEmployed && (
-                <Badge color="primary" className="ml-1">
-                  재직 중
-                </Badge>
-              )}
-              <Badge color="info" className="ml-1">
-                {Util.getFormattingDuration(minStartedAt, maxEndedAt)}
-              </Badge>
-            </span>
-          </h4>
-        </Col>
-      </Row>
+    <CompanyBlock>
+      <ExperienceRowLayout>
+        <DateColumn>
+          <CompanyDate>{periodTitle}</CompanyDate>
+        </DateColumn>
+        <ContentColumn>
+          <CompanyHeader>
+            {isCurrentlyEmployed && <StatusDot />}
+            <span>{item.title}</span>
+            <BadgeGroup>
+              {isCurrentlyEmployed && <ActiveBadge>재직 중</ActiveBadge>}
+              <DurationBadge>{Util.getFormattingDuration(minStartedAt, maxEndedAt)}</DurationBadge>
+            </BadgeGroup>
+          </CompanyHeader>
+        </ContentColumn>
+      </ExperienceRowLayout>
 
-      {/* 각 Position을 최신 순으로 반복하여 개별 재직 기간과 직책 표시 */}
       {sortedPositions.map((position, posIndex) => (
-        <Row key={posIndex.toString()} className="mt-2">
-          <Col sm={12} md={3} className="text-md-right">
-            {/* positions가 1개 이상일 때만 Position의 재직 기간 표시 */}
+        <ExperienceRowLayout key={posIndex.toString()}>
+          <DateColumn>
             {hasMultiplePositions && (
-              <span style={Style.gray}>
-                {createWorkingPeriod(position.startedAtDate, position.endedAtDate)}
-              </span>
+              <SubDate>{createWorkingPeriod(position.startedAtDate, position.endedAtDate)}</SubDate>
             )}
-          </Col>
-          <Col sm={12} md={9}>
-            <i style={Style.gray}>{position.title}</i>
-            <ul className="pt-2">
+          </DateColumn>
+          <ContentColumn>
+            <PositionTitle>{position.title}</PositionTitle>
+            <DescriptionList>
               {position.descriptions.map((description, descIndex) => (
                 <li key={descIndex.toString()}>{description}</li>
               ))}
-              {createSkillKeywords(position.skillKeywords)}
-            </ul>
-          </Col>
-        </Row>
+            </DescriptionList>
+            {createSkillKeywords(position.skillKeywords)}
+          </ContentColumn>
+        </ExperienceRowLayout>
       ))}
-    </div>
+    </CompanyBlock>
   );
 }
 
@@ -110,7 +114,6 @@ function createOverallWorkingPeriod(positions: PositionWithDates[]) {
   const startedAt = positions[positions.length - 1].startedAtDate;
   const isCurrentlyEmployed = positions.some((position) => position.isCurrent);
 
-  // 재직 중일 때는 종료일 없이 표시
   if (isCurrentlyEmployed) {
     return `${startedAt.toFormat(DATE_FORMAT)} ~`;
   }
@@ -134,25 +137,20 @@ function createOverallWorkingPeriod(positions: PositionWithDates[]) {
 }
 
 function createSkillKeywords(skillKeywords?: string[]) {
-  if (!skillKeywords) {
+  const keywords = skillKeywords?.filter((keyword) => keyword.trim()) ?? [];
+  if (keywords.length === 0) {
     return null;
   }
+
   return (
-    <li>
-      <strong>Skill Keywords</strong>
-      <div>
-        {skillKeywords.map((keyword, index) => (
-          <Badge
-            style={Style.skillKeywordBadge}
-            key={index.toString()}
-            color="secondary"
-            className="mr-1"
-          >
-            {keyword}
-          </Badge>
+    <SkillKeywordsBlock>
+      <SkillKeywordsTitle>Skill Keywords</SkillKeywordsTitle>
+      <SkillKeywordList>
+        {keywords.map((keyword, index) => (
+          <SkillKeywordPill key={index.toString()}>{keyword}</SkillKeywordPill>
         ))}
-      </div>
-    </li>
+      </SkillKeywordList>
+    </SkillKeywordsBlock>
   );
 }
 
