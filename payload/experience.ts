@@ -14,11 +14,14 @@ const experience: ExperiencePayload = {
           descriptions: [
             {
               content:
-                '잦은 문제가 발생하는 PG사 서비스를 네이버 페이로 이관하여 결제 시 안정성을 확보했습니다.',
+                '기존 외부 PG사의 잦은 장애 문제를 해결하기 위해 네이버 페이로 이관 작업 수행하여 프로세스의 예외 발생율을 낮추고 서비스 안정성을 확보',
             },
             { content: '멘토링 서비스 초기 버전 개발' },
             { content: 'B2B 서비스 개발 및 확장' },
-            { content: '최대 50만건 이상의 이메일 발송 시스템 구축' },
+            {
+              content:
+                'AWS SES 메시지 큐를 도입하여 서버 부하를 최소화하고, 최대 50만 건 이상의 대량 이메일을 안정적으로 발송할 수 있는 시스템 구축',
+            },
           ],
           skillKeywords: ['NestJS', 'PostgreSQL', 'TypeORM', 'AWS', 'Docker-Compose'],
         },
@@ -29,11 +32,11 @@ const experience: ExperiencePayload = {
           descriptions: [
             {
               content:
-                'unit 테스트, pg-mem을 통한 통합 테스트 환경을 구축하여 프로젝트 안정성 확보',
+                '통합 테스트 시간 단축을 위해 pg-mem을 도입하여 테스트 시간 4.3초 -> 1.8초로 약 67% 단축',
             },
             {
               content:
-                '.husky로 커밋시 테스트 커버리지를 검사하여 90% 이상을 유지하며 테스트 코드 품질 관리',
+                '.husky를 활용해 커밋 시 테스트 커버리지를 검사하여 90% 이상을 유지하며 테스트 코드 품질 관리',
             },
           ],
           skillKeywords: ['NestJS', 'PostgreSQL', 'TypeORM', 'AWS', 'Docker-Compose'],
@@ -45,11 +48,7 @@ const experience: ExperiencePayload = {
           descriptions: [
             {
               content:
-                '디버깅시 8초 이상에 모노리스 프로젝트에서 B2B 서비스를 분리하고 레거시 코드 제거, Node.js 버전 업그레이드, SWC를 적용하여 디버깅 실행 시간을 12초 → 1.4초로 단축했습니다.',
-            },
-            {
-              content:
-                '외부 의존성이 높은 코드를 리팩토링하여 단위 테스트 환경을 구축해 서비스 안정성을 높였습니다.',
+                '로딩 및 빌드 시 12초 이상 소요되던 대형 모노리스 프로젝트에서 B2B 서비스를 성공적으로 분리, 레거시 코드 제거, Node.js 버전 업그레이드,  SWC를 도입하여 로딩시간을 12 -> 1.4초, 빌드시간 22초 -> 5.4초로 약 88% 단축했습니다.',
             },
           ],
           skillKeywords: ['Express', 'TypeScript', 'webpack'],
@@ -65,7 +64,8 @@ const experience: ExperiencePayload = {
           endedAt: '2020-09',
           descriptions: [
             {
-              content: '대량의 퀵 배송지를 최적의 경로 최적화하는 서비스를 개발했습니다.',
+              content:
+                '대량의 퀵 배송지 데이터를 기반으로, 이동 동선을 고려한 최적의 배송 경로 추천 알고리즘 및 서비스를 개발',
             },
           ],
           skillKeywords: ['Express', 'MySQL', 'Sequelize', 'AWS'],

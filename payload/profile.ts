@@ -1,15 +1,15 @@
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { ProfilePayload } from '../types/profile';
 
 const profile: ProfilePayload = {
   disable: false,
 
-  image: '/sample_tux.png',
+  image: '/profile.jpg',
   name: {
     title: '김주열',
-    small: '(주스)',
+    small: '(🥤주스)',
   },
   contact: [
     {

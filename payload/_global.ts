@@ -1,6 +1,6 @@
 import { GlobalPayload } from '../types/global';
 
-const favicon = '/favicon.ico';
+const favicon = '/favicon.svg';
 const previewImage = '/preview.jpg';
 
 const title = '김주열 | Backend Developer';
