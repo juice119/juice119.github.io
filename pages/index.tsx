@@ -1,22 +1,22 @@
-import { Fragment, ReactNode } from 'react';
 import Head from 'next/head';
+import { Fragment, ReactNode } from 'react';
+import { ArticleSection } from '../component/article';
+import { DarkModeToggle } from '../component/common/DarkModeToggle';
+import { PrintButton } from '../component/common/PrintButton';
 import { EducationSection } from '../component/education';
 import { EtcSection } from '../component/etc';
 import { ExperienceSection } from '../component/experience';
 import { FooterSection } from '../component/footer';
 import { HighlightSection } from '../component/highlight';
 import { IntroduceSection } from '../component/introduce';
-import { TestimonialSection } from '../component/testimonial';
+import { FloatingNav } from '../component/nav/FloatingNav';
 import { OpenSourceSection } from '../component/openSource';
 import { PresentationSection } from '../component/presentation';
 import { ProfileSection } from '../component/profile';
 import { ProjectSection } from '../component/project';
 import { SkillSection } from '../component/skill';
-import { FloatingNav } from '../component/nav/FloatingNav';
-import { DarkModeToggle } from '../component/common/DarkModeToggle';
-import { PrintButton } from '../component/common/PrintButton';
+import { TestimonialSection } from '../component/testimonial';
 import Payload from '../payload';
-import { ArticleSection } from '../component/article';
 import { SectionKey } from '../types/global';
 
 /** 섹션 키 → ReactNode 매핑 */
@@ -37,6 +37,7 @@ const SECTION_MAP: Record<SectionKey, ReactNode> = {
 /** 기본 섹션 순서 (Profile, Footer 제외) */
 const DEFAULT_SECTION_ORDER: SectionKey[] = [
   'highlight',
+  'introduce',
   'experience',
   'project',
   'skill',
@@ -45,7 +46,6 @@ const DEFAULT_SECTION_ORDER: SectionKey[] = [
   'article',
   'education',
   'testimonial',
-  'introduce',
   'etc',
 ];
 
@@ -104,7 +104,9 @@ function Yosume() {
                   },
                   url: Payload._global.jsonLd.url,
                   ...(Payload._global.jsonLd.sameAs && { sameAs: Payload._global.jsonLd.sameAs }),
-                  ...(Payload._global.jsonLd.knowsAbout && { knowsAbout: Payload._global.jsonLd.knowsAbout }),
+                  ...(Payload._global.jsonLd.knowsAbout && {
+                    knowsAbout: Payload._global.jsonLd.knowsAbout,
+                  }),
                 },
               }).replace(/</g, '\\u003c'),
             }}

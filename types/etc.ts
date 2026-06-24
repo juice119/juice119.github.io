@@ -34,4 +34,11 @@ export interface EtcItem {
    * @example '2015-03'
    */
   endedAt?: string;
+
+  /**
+   * ### 기타 항목 진행 여부
+   *
+   * @description 해당 값이 true 일 경우 진행 상태를 표시하지 않는다.
+   */
+  noProgress?: boolean;
 }

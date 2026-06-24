@@ -23,8 +23,8 @@ const experience: ExperiencePayload = {
           skillKeywords: ['NestJS', 'PostgreSQL', 'TypeORM', 'AWS', 'Docker-Compose'],
         },
         {
-          startedAt: '2022-08',
-          endedAt: '2022-11',
+          startedAt: '2022-11',
+          endedAt: '2023-08',
           title: '인프런 B2B 신규 서버 추가 및 테스트 코드 도입',
           descriptions: [
             {
@@ -65,8 +65,7 @@ const experience: ExperiencePayload = {
           endedAt: '2020-09',
           descriptions: [
             {
-              content:
-                '대량의 퀵 배송지를 최적의 경로 최적화하는 서비스를 개발했습니다.',
+              content: '대량의 퀵 배송지를 최적의 경로 최적화하는 서비스를 개발했습니다.',
             },
           ],
           skillKeywords: ['Express', 'MySQL', 'Sequelize', 'AWS'],

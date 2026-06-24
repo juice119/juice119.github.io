@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon';
 import _debug from 'debug';
+import { DateTime } from 'luxon';
 
 enum LUXON_DATE_FORMAT {
   YYYY_LL_DD = 'yyyy-LL-dd',
@@ -43,8 +43,9 @@ function formatYearMonth(dateStr: string): string {
 }
 
 /** 시작일~종료일 날짜 범위 문자열 생성 */
-function formatDateRange(startedAt: string, endedAt?: string): string {
+function formatDateRange(startedAt: string, endedAt?: string, noProgress?: boolean): string {
   const start = formatYearMonth(startedAt);
+  if (noProgress) return `${start}`;
   if (!endedAt) return `${start} ~`;
   return `${start} ~ ${formatYearMonth(endedAt)}`;
 }

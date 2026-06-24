@@ -1,4 +1,4 @@
-import { SkillPayload, SkillItem } from '../types/skill';
+import { SkillItem, SkillPayload } from '../types/skill';
 
 const programmingLanguages: SkillItem = {
   category: 'Languages',
@@ -13,12 +13,7 @@ const programmingLanguages: SkillItem = {
 
 const frameworks: SkillItem = {
   category: 'Frameworks & Libraries',
-  items: [
-    { title: 'NestJS' },
-    { title: 'Express' },
-    { title: 'Spring Boot' },
-    { title: 'NextJS' },
-  ],
+  items: [{ title: 'NestJS' }, { title: 'Express' }, { title: 'Spring Boot' }, { title: 'NextJS' }],
 };
 
 const databases: SkillItem = {
@@ -34,10 +29,7 @@ const databases: SkillItem = {
 
 const infrastructure: SkillItem = {
   category: 'Infrastructure',
-  items: [
-    { title: 'AWS', level: 3 },
-    { title: 'Docker', level: 3 },
-  ],
+  items: [{ title: 'AWS' }, { title: 'Docker' }],
 };
 
 const tools: SkillItem = {

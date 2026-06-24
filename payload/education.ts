@@ -1,20 +1,14 @@
 import { EducationPayload } from '../types/education';
 
 const education: EducationPayload = {
-  disable: true,
+  disable: false,
 
   list: [
     {
-      title: 'University of Open Source',
-      subTitle: 'PhD in System Engineering (Honorary)',
-      startedAt: '1991-03',
-      // endedAt: '2010-02',
-    },
-    {
-      title: 'Antarctica High School',
-      subTitle: 'Graduated',
-      startedAt: '1989-03',
-      endedAt: '1991-02',
+      title: '한국폴리텍대학 성남캠퍼스',
+      subTitle: '전자정보 통신과 전문 학사 졸업',
+      startedAt: '2016-03',
+      endedAt: '2020-02',
     },
   ],
 };
