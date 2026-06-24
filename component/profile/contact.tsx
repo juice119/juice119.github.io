@@ -1,61 +1,98 @@
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { PropsWithChildren } from 'react';
-
-import { IProfile } from './IProfile';
+import type { ProfileContact as ProfileContactType } from '../../types/profile';
 import { HrefTargetBlank } from '../common';
 
-const ContactItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-`;
-
-const Icon = styled(FontAwesomeIcon)`
-  color: ${({ theme }) => theme.colors.accent};
-  width: 14px;
-`;
-
-const ContactGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 16px;
-  margin-top: 1rem;
-
-  @media (max-width: 576px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-export function ProfileContactGrid({
-  contacts,
-}: PropsWithChildren<{ contacts: IProfile.Contact[] }>) {
+export default function ProfileContact({ payload }: { payload: ProfileContactType }) {
   return (
-    <ContactGrid>
-      {contacts.map((contact, index) => (
-        <ProfileContact key={index.toString()} payload={contact} />
-      ))}
-    </ContactGrid>
-  );
-}
-
-function ProfileContact({ payload }: PropsWithChildren<{ payload: IProfile.Contact }>) {
-  return (
-    <ContactItem>
-      <Icon icon={payload.icon} />
+    <span className="profile-contact-item">
+      <FontAwesomeIcon icon={payload.icon} style={{ marginRight: 'var(--space-xs)' }} />
       {createLink(payload)}
-    </ContactItem>
+    </span>
   );
 }
 
-function createLink(payload: IProfile.Contact) {
+function createLink(payload: ProfileContactType) {
+  const displayText = getDisplayText(payload);
+
   if (payload.badge) {
-    return <span>{payload.title || payload.link}</span>;
+    return <span className="tag">{displayText}</span>;
   }
   return payload.link ? (
-    <HrefTargetBlank url={payload.link} text={payload.title} />
+    <HrefTargetBlank url={payload.link} text={displayText} />
   ) : (
-    <span>{payload.title}</span>
+    <span>{displayText}</span>
   );
+}
+
+function getDisplayText(payload: ProfileContactType) {
+  if (payload.title && !isHttpUrl(payload.title)) {
+    return payload.title;
+  }
+
+  const handle = extractSocialHandle(payload.link);
+  if (handle) {
+    return `@${handle}`;
+  }
+
+  return payload.title || payload.link || '';
+}
+
+function isHttpUrl(value: string) {
+  return /^https?:\/\//i.test(value);
+}
+
+function extractSocialHandle(link?: string) {
+  if (!link) {
+    return null;
+  }
+
+  let parsed: URL;
+  try {
+    parsed = new URL(link);
+  } catch {
+    return null;
+  }
+
+  const host = parsed.hostname.replace(/^www\./, '').toLowerCase();
+  const segments = parsed.pathname.split('/').filter(Boolean);
+  if (segments.length === 0) {
+    return null;
+  }
+
+  if (host === 'facebook.com') {
+    const reserved = new Set(['groups', 'pages', 'events', 'watch', 'marketplace']);
+    if (reserved.has(segments[0].toLowerCase())) {
+      return null;
+    }
+    return sanitizeHandle(segments[0]);
+  }
+
+  if (
+    host === 'instagram.com' ||
+    host === 'threads.net' ||
+    host === 'x.com' ||
+    host === 'twitter.com'
+  ) {
+    return sanitizeHandle(segments[0]);
+  }
+
+  if (host === 'linkedin.com') {
+    if (segments[0] === 'in' && segments[1]) {
+      return sanitizeHandle(segments[1]);
+    }
+    if (segments[0] === 'company' && segments[1]) {
+      return sanitizeHandle(segments[1]);
+    }
+    return null;
+  }
+
+  if (host === 'github.com' && segments.length === 1) {
+    return sanitizeHandle(segments[0]);
+  }
+
+  return null;
+}
+
+function sanitizeHandle(raw: string) {
+  return decodeURIComponent(raw).replace(/^@+/, '').trim();
 }

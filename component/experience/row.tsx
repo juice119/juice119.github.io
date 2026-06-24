@@ -1,36 +1,20 @@
 import { DateTime } from 'luxon';
-import { PropsWithChildren } from 'react';
-import { IExperience } from './IExperience';
+import { ExperienceItem, ExperiencePosition } from '../../types/experience';
 import Util from '../common/Util';
-import {
-  ActiveBadge,
-  BadgeGroup,
-  CompanyBlock,
-  CompanyDate,
-  CompanyHeader,
-  ContentColumn,
-  DateColumn,
-  DescriptionList,
-  DurationBadge,
-  ExperienceRowLayout,
-  PositionTitle,
-  SkillKeywordList,
-  SkillKeywordPill,
-  SkillKeywordsBlock,
-  SkillKeywordsTitle,
-  StatusDot,
-  SubDate,
-} from './styles';
 
-type PositionWithDates = IExperience.Position & {
+type PositionWithDates = ExperiencePosition & {
   startedAtDate: DateTime;
   endedAtDate: DateTime | null;
   isCurrent: boolean;
 };
 
-export default function ExperienceRow({
-  item,
-}: PropsWithChildren<{ item: IExperience.Item; index: number }>) {
+function hasEndedAtDate(
+  position: PositionWithDates,
+): position is PositionWithDates & { endedAtDate: DateTime } {
+  return position.endedAtDate !== null;
+}
+
+export default function ExperienceRow({ item, index }: { item: ExperienceItem; index: number }) {
   const positionsWithDates: PositionWithDates[] = item.positions.map((position) => ({
     ...position,
     startedAtDate: DateTime.fromFormat(position.startedAt, Util.LUXON_DATE_FORMAT.YYYY_LL),
@@ -44,24 +28,19 @@ export default function ExperienceRow({
     .slice()
     .sort((a, b) => b.startedAtDate.toMillis() - a.startedAtDate.toMillis());
 
-  const minStartedAt = DateTime.min(...sortedPositions.map((position) => position.startedAtDate));
+  const minStartedAt =
+    DateTime.min(...sortedPositions.map((position) => position.startedAtDate)) ?? DateTime.local();
   const isCurrentlyEmployed = sortedPositions.some((position) => position.isCurrent);
-
-  function hasEndedAtDate(
-    position: PositionWithDates,
-  ): position is PositionWithDates & { endedAtDate: DateTime } {
-    return position.endedAtDate !== null;
-  }
 
   const endedAtDates = sortedPositions
     .filter(hasEndedAtDate)
     .map((position) => position.endedAtDate);
 
-  let maxEndedAt: DateTime;
+  let maxEndedAt: DateTime<boolean>;
   if (isCurrentlyEmployed) {
     maxEndedAt = DateTime.local();
   } else if (endedAtDates.length > 0) {
-    maxEndedAt = DateTime.max(...endedAtDates);
+    maxEndedAt = DateTime.max(...endedAtDates) ?? DateTime.local();
   } else {
     maxEndedAt = DateTime.local();
   }
@@ -70,42 +49,50 @@ export default function ExperienceRow({
   const hasMultiplePositions = sortedPositions.length > 1;
 
   return (
-    <CompanyBlock>
-      <ExperienceRowLayout>
-        <DateColumn>
-          <CompanyDate>{periodTitle}</CompanyDate>
-        </DateColumn>
-        <ContentColumn>
-          <CompanyHeader>
-            {isCurrentlyEmployed && <StatusDot />}
-            <span>{item.title}</span>
-            <BadgeGroup>
-              {isCurrentlyEmployed && <ActiveBadge>재직 중</ActiveBadge>}
-              <DurationBadge>{Util.getFormattingDuration(minStartedAt, maxEndedAt)}</DurationBadge>
-            </BadgeGroup>
-          </CompanyHeader>
-        </ContentColumn>
-      </ExperienceRowLayout>
+    <div className="experience-item">
+      {index > 0 && <hr />}
+      {/* 최상위: 전체 재직 기간과 회사명 표시 */}
+      <div className="split-row">
+        <div className="split-left">
+          <h4 className="experience-period">{periodTitle}</h4>
+        </div>
+        <div>
+          <h4 className="experience-company-heading">
+            <span className={`experience-dot ${isCurrentlyEmployed ? 'is-current' : ''}`} />
+            {item.title}{' '}
+            <span className="experience-meta">
+              {isCurrentlyEmployed && <span className="tag tag--success">재직 중</span>}
+              <span className="tag tag--accent">
+                {Util.getFormattingDuration(minStartedAt, maxEndedAt)}
+              </span>
+            </span>
+          </h4>
+        </div>
+      </div>
 
+      {/* 각 Position을 최신 순으로 반복하여 개별 재직 기간과 직책 표시 */}
       {sortedPositions.map((position, posIndex) => (
-        <ExperienceRowLayout key={posIndex.toString()}>
-          <DateColumn>
+        <div key={posIndex.toString()} className="split-row experience-position-row">
+          <div className="split-left">
+            {/* positions가 1개 이상일 때만 Position의 재직 기간 표시 */}
             {hasMultiplePositions && (
-              <SubDate>{createWorkingPeriod(position.startedAtDate, position.endedAtDate)}</SubDate>
+              <span className="experience-position-period">
+                {createWorkingPeriod(position.startedAtDate, position.endedAtDate)}
+              </span>
             )}
-          </DateColumn>
-          <ContentColumn>
-            <PositionTitle>{position.title}</PositionTitle>
-            <DescriptionList>
+          </div>
+          <div>
+            <i className="experience-position-title">{position.title}</i>
+            <ul className="experience-description-list">
               {position.descriptions.map((description, descIndex) => (
-                <li key={descIndex.toString()}>{description}</li>
+                <li key={descIndex.toString()}>{description.content}</li>
               ))}
-            </DescriptionList>
-            {createSkillKeywords(position.skillKeywords)}
-          </ContentColumn>
-        </ExperienceRowLayout>
+              {createSkillKeywords(position.skillKeywords)}
+            </ul>
+          </div>
+        </div>
       ))}
-    </CompanyBlock>
+    </div>
   );
 }
 
@@ -114,21 +101,16 @@ function createOverallWorkingPeriod(positions: PositionWithDates[]) {
   const startedAt = positions[positions.length - 1].startedAtDate;
   const isCurrentlyEmployed = positions.some((position) => position.isCurrent);
 
+  // 재직 중일 때는 종료일 없이 표시
   if (isCurrentlyEmployed) {
     return `${startedAt.toFormat(DATE_FORMAT)} ~`;
   }
 
-  function hasEndedAtDate(
-    position: PositionWithDates,
-  ): position is PositionWithDates & { endedAtDate: DateTime } {
-    return position.endedAtDate !== null;
-  }
-
   const endedAtDates = positions.filter(hasEndedAtDate).map((position) => position.endedAtDate);
 
-  let endedAt: DateTime;
+  let endedAt: DateTime<boolean>;
   if (endedAtDates.length > 0) {
-    endedAt = DateTime.max(...endedAtDates);
+    endedAt = DateTime.max(...endedAtDates) ?? DateTime.local();
   } else {
     endedAt = DateTime.local();
   }
@@ -137,20 +119,20 @@ function createOverallWorkingPeriod(positions: PositionWithDates[]) {
 }
 
 function createSkillKeywords(skillKeywords?: string[]) {
-  const keywords = skillKeywords?.filter((keyword) => keyword.trim()) ?? [];
-  if (keywords.length === 0) {
+  if (!skillKeywords) {
     return null;
   }
-
   return (
-    <SkillKeywordsBlock>
-      <SkillKeywordsTitle>Skill Keywords</SkillKeywordsTitle>
-      <SkillKeywordList>
-        {keywords.map((keyword, index) => (
-          <SkillKeywordPill key={index.toString()}>{keyword}</SkillKeywordPill>
+    <li>
+      <strong>Skill Keywords</strong>
+      <div className="experience-keywords">
+        {skillKeywords.map((keyword, index) => (
+          <span key={index.toString()} className="tag tag--accent">
+            {keyword}
+          </span>
         ))}
-      </SkillKeywordList>
-    </SkillKeywordsBlock>
+      </div>
+    </li>
   );
 }
 

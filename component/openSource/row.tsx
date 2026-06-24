@@ -1,22 +1,25 @@
 import { PropsWithChildren } from 'react';
-import { IOpenSource } from './IOpenSource';
+import { OpenSourcePayload, OpenSourceItem } from '../../types/open-source';
 import { EmptyRowCol } from '../common';
 import { CommonRows } from '../common/CommonRow';
-import { IRow } from '../common/IRow';
+import { ShowMoreWrapper } from '../common/ShowMoreWrapper';
+import { RowPayload } from '../../types/row';
 
 export default function OpenSourceRow({
   payload,
-}: PropsWithChildren<{ payload: IOpenSource.Payload }>) {
+}: PropsWithChildren<{ payload: OpenSourcePayload }>) {
   return (
     <EmptyRowCol>
-      {payload.list.map((item, index) => (
-        <CommonRows key={index.toString()} payload={serialize(item)} index={index} />
-      ))}
+      <ShowMoreWrapper showMoreCount={payload.showMoreCount}>
+        {payload.list.map((item, index) => (
+          <CommonRows key={index.toString()} payload={serialize(item)} index={index} />
+        ))}
+      </ShowMoreWrapper>
     </EmptyRowCol>
   );
 }
 
-function serialize(item: IOpenSource.Item): IRow.Payload {
+function serialize(item: OpenSourceItem): RowPayload {
   return {
     left: {
       title: item.title,

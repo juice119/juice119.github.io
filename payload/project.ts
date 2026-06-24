@@ -1,7 +1,7 @@
-import { IProject } from '../component/project/IProject';
+import { ProjectPayload } from '../types/project';
 
-const project: IProject.Payload = {
-  disable: false,
+const project: ProjectPayload = {
+  disable: true,
   list: [
     {
       title: 'Linux Kernel Optimization Project',

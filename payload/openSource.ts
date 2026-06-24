@@ -1,10 +1,10 @@
-import { IOpenSource } from '../component/openSource/IOpenSource';
+import { OpenSourcePayload } from '../types/open-source';
 
-const openSource: IOpenSource.Payload = {
+const openSource: OpenSourcePayload = {
   disable: true,
   list: [
     {
-      title: 'Linux Kernal',
+      title: 'Linux Kernel',
       descriptions: [
         {
           content: 'Regular contributor to kernel patches.',

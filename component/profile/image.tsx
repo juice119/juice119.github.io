@@ -1,28 +1,7 @@
-import styled from 'styled-components';
-import { PropsWithChildren } from 'react';
-
-const ImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-
-  @media (min-width: 768px) {
-    justify-content: flex-end;
-  }
-`;
-
-const Image = styled.img`
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center center;
-  border: 2px solid ${({ theme }) => theme.colors.profileImageBorder};
-`;
-
-export default function ProfileImage({ src }: PropsWithChildren<{ src: string }>) {
+export default function ProfileImage({ src, name }: { src: string; name?: string }) {
   return (
-    <ImageWrapper>
-      <Image src={src} alt="Profile" />
-    </ImageWrapper>
+    <div className="profile-image-wrap">
+      <img className="profile-image" src={src} alt={name || 'Profile'} />
+    </div>
   );
 }

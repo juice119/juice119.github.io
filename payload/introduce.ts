@@ -1,7 +1,7 @@
-import { IIntroduce } from '../component/introduce/IIntroduce';
-import { lastestUpdatedAt } from '../package.json';
+import { IntroducePayload } from '../types/introduce';
+import { latestUpdatedAt } from '../package.json';
 
-const introduce: IIntroduce.Payload = {
+const introduce: IntroducePayload = {
   disable: false,
 
   contents: [
@@ -15,10 +15,10 @@ const introduce: IIntroduce.Payload = {
 
     '앞으로도 서비스 구조와 코드 품질을 함께 개선하며 지속적으로 성장하는 백엔드 개발자가 되고 싶습니다.',
   ],
-  sign: 'Tux',
+  sign: '김주열',
   // sign: packageJson.author.name,
   // latestUpdated: '2019-07-24',
-  latestUpdated: lastestUpdatedAt,
+  latestUpdated: latestUpdatedAt,
 };
 
 export default introduce;

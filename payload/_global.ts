@@ -1,11 +1,12 @@
-import favicon from '../asset/favicon.ico';
-import previewImage from '../asset/preview.jpg';
-import { IGlobal } from '../component/common/IGlobal';
+import { GlobalPayload } from '../types/global';
 
-const title = 'RESUME-NEXTJS Sample Page';
-const description = 'This is a simple web resume sample.';
+const favicon = '/favicon.ico';
+const previewImage = '/preview.jpg';
 
-export const _global: IGlobal.Payload = {
+const title = '김주열 | Backend Developer';
+const description = '기술 부채 관리에 관심이 많은 백엔드 개발자 김주열의 이력서입니다.';
+
+export const _global: GlobalPayload = {
   favicon,
   headTitle: title,
   seo: {
@@ -19,16 +20,24 @@ export const _global: IGlobal.Payload = {
           url: previewImage,
           width: 800,
           height: 600,
-          alt: 'OpenGraph Image Sample.png',
+          alt: '김주열 이력서 미리보기',
         },
       ],
       type: 'profile',
       profile: {
-        firstName: 'Lorem',
-        lastName: 'ipsum',
-        username: 'lorem',
-        gender: 'female',
+        firstName: '주열',
+        lastName: '김',
+        username: 'juice119',
+        gender: 'male',
       },
     },
+  },
+  jsonLd: {
+    name: '김주열',
+    jobTitle: 'Backend Developer',
+    worksFor: '인프런',
+    url: 'https://juice119.github.io',
+    sameAs: ['https://github.com/juice119'],
+    knowsAbout: ['TypeScript', 'NestJS', 'PostgreSQL', 'AWS'],
   },
 };
