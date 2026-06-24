@@ -5,27 +5,25 @@ const experience: IExperience.Payload = {
   disableTotalPeriod: false,
   list: [
     {
-      title: 'Linux Foundation',
+      title: '인프런',
       positions: [
         {
-          title: 'System Engineer',
-          startedAt: '1996-05',
+          startedAt: '2022-08',
+          endedAt: '2022-11',
+          title: '인프런 B2B 신규 서버 추가 및 테스트 코드 도입',
           descriptions: [
-            'Steering Kernel patching and updates for various distributions',
-            'Automating deployment and integration processes for Linux servers',
-            'Spearheading initiatives to enhance Linux kernel security',
-            'Collaborating with global developers to coordinate code contributions',
+            'unit 테스트, pg-mem을 통한 통합 테스트 환경을 구축하여 프로젝트 안정성 확보',
+            '.husky로 커밋시 테스트 커버리지를 검사하여 90% 이상을 유지하며 테스트 코드 품질 관리',
           ],
-          skillKeywords: ['C', 'Linux', 'Kernel', 'Security', 'Automation'],
+          skillKeywords: ['NestJS', 'PostgreSQL', 'TypeORM', 'AWS', 'Docker-Compose'],
         },
         {
-          title: 'System Engineer Intern',
+          title: '인프런 B2B 서비스 분리',
           startedAt: '1996-02',
           endedAt: '1996-05',
           descriptions: [
-            'Assisted senior engineers in maintaining and updating kernel patches for Linux distributions',
-            'Supported deployment and integration tasks for Linux server environments',
-            'Conducted research on Linux kernel security practices and presented findings to the team',
+            '디버깅시 5초 이상에 모놀리스 프로젝트에서 B2B 기능을 독립 서비스로 분리하고 레거시 코드를 정리했습니다.',
+            'Node.js 버전 업그레이드와 SWC 트랜스파일러 적용을 통해 로컬 서버 실행 시간을 12초 → 1.4초로 단축ㅋ했습니다.',
           ],
           skillKeywords: ['C', 'Linux', 'Kernel', 'Support', 'Research'],
         },

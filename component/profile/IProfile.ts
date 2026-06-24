@@ -20,7 +20,11 @@ export declare namespace IProfile {
       title: string;
       /** ### 이름 옆 괄호로 작게 표시해주는 이름 */
       small?: string;
+      /** ### 직함 또는 한 줄 소개 */
+      subtitle?: string;
     };
+    /** ### 통계 카드 */
+    stats?: Stat[];
     /** ### 연락 수단 목록 */
     contact: Contact[];
     /** ### 공지 */
@@ -35,6 +39,13 @@ export declare namespace IProfile {
        */
       icon?: IconDefinition;
     };
+  }
+
+  interface Stat {
+    /** ### 숫자 또는 강조 텍스트 */
+    value: string;
+    /** ### 라벨 (대문자 표시) */
+    label: string;
   }
 
   /**

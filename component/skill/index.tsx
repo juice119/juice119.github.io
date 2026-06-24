@@ -1,12 +1,14 @@
-import { Row, Col, Tooltip } from 'reactstrap';
+import { Tooltip } from 'reactstrap';
 import { PropsWithChildren, useState } from 'react';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Style } from '../common/Style';
+
 import { ISkill } from './ISkill';
 import SkillRow from './row';
 import { EmptyRowCol } from '../common';
 import { PreProcessingComponent } from '../common/PreProcessingComponent';
+import { SectionHeader } from '../common/SectionHeader';
+import { Section } from '../common/PageLayout';
 
 type Payload = ISkill.Payload;
 
@@ -21,34 +23,27 @@ export const Skill = {
 
 function Component({ payload }: PropsWithChildren<{ payload: Payload }>) {
   return (
-    <div className="mt-5">
+    <Section>
       <EmptyRowCol>
-        <Row className="pb-3">
-          <Col>
-            <h2>
-              <span style={Style.blue}>SKILL</span>
-              {createTooltip(payload.tooltip)}
-            </h2>
-          </Col>
-        </Row>
+        <SectionHeader title="SKILL">{createTooltip(payload.tooltip)}</SectionHeader>
         {payload.skills.map((skill, index) => (
-          <SkillRow key={index.toString()} skill={skill} index={index} />
+          <SkillRow key={index.toString()} skill={skill} />
         ))}
       </EmptyRowCol>
-    </div>
+    </Section>
   );
 }
 
 function createTooltip(content?: string) {
   if (!content) {
-    return '';
+    return null;
   }
 
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
   return (
-    <small>
+    <>
       {' '}
       <FontAwesomeIcon icon={faQuestionCircle} id="skill-tooltip" />
       <Tooltip
@@ -60,6 +55,6 @@ function createTooltip(content?: string) {
       >
         {content}
       </Tooltip>
-    </small>
+    </>
   );
 }

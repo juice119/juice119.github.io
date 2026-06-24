@@ -1,177 +1,103 @@
 import { ISkill } from '../component/skill/ISkill';
 
 const programmingLanguages: ISkill.Skill = {
-  category: 'Programming Languages',
+  category: 'Languages',
   items: [
     {
-      title: 'C',
-      level: 3,
+      title: 'JavaScript',
     },
     {
-      title: 'Shell Scripting',
-      level: 3,
+      title: 'TypeScripte',
     },
     {
-      title: 'Python',
-      level: 3,
+      title: 'HTML & CSS',
     },
     {
-      title: 'Perl',
-      level: 2,
+      title: 'Kotlin',
     },
     {
-      title: 'Golang',
-      level: 2,
-    },
-    {
-      title: 'Rust',
-      level: 1,
+      title: 'Java',
     },
   ],
 };
 
 const kernelDevelopment: ISkill.Skill = {
-  category: 'Kernel Development',
+  category: 'Fameworks & Libraries',
   items: [
     {
-      title: 'Kernel Programming',
-      level: 3,
+      title: 'NestJS',
     },
     {
-      title: 'GNU Debugger',
-      level: 3,
+      title: 'Express',
     },
     {
-      title: 'Memory Management',
-      level: 2,
+      title: 'Spring Boot',
     },
     {
-      title: 'System Call Interface',
-      level: 2,
-    },
-  ],
-};
-
-const virtualization: ISkill.Skill = {
-  category: 'Virtualization',
-  items: [
-    {
-      title: 'Docker',
-      level: 3,
-    },
-    {
-      title: 'KVM',
-      level: 3,
-    },
-    {
-      title: 'Xen',
-      level: 2,
-    },
-    {
-      title: 'VirtualBox',
-      level: 2,
-    },
-    {
-      title: 'VMware ESXi',
-      level: 1,
+      title: 'NextJS',
     },
   ],
 };
 
 const automation: ISkill.Skill = {
-  category: 'Automation',
+  category: 'Databases & ORM',
   items: [
     {
-      title: 'Ansible',
-      level: 3,
+      title: 'PostgreSQL',
     },
     {
-      title: 'Puppet',
-      level: 3,
+      title: 'Redis',
     },
     {
-      title: 'Chef',
-      level: 2,
+      title: 'TypeORM',
     },
     {
-      title: 'Jenkins',
-      level: 2,
+      title: 'Prisma',
     },
     {
-      title: 'CI/CD Pipelines',
-      level: 1,
-    },
-    {
-      title: 'Infrastructure as Code',
-      level: 1,
+      title: 'Sequelize',
     },
   ],
 };
 
 const networkSecurity: ISkill.Skill = {
-  category: 'Network Security',
+  category: 'Infrastructure',
   items: [
     {
-      title: 'iptables',
+      title: 'AWS',
       level: 3,
     },
     {
-      title: 'OpenSSH',
+      title: 'Docker',
       level: 3,
-    },
-    {
-      title: 'OpenSSL',
-      level: 2,
-    },
-    {
-      title: 'NACLs',
-      level: 2,
-    },
-    {
-      title: 'VPN Technologies',
-      level: 2,
-    },
-    {
-      title: 'Intrusion Detection',
-      level: 1,
     },
   ],
 };
 
 const misc: ISkill.Skill = {
-  category: 'Misc',
+  category: 'Tools & IDEs',
   items: [
     {
-      title: 'Coffee Brewing',
+      title: 'Cursor',
     },
     {
-      title: "Rubik's Cube Solving",
+      title: 'Git',
     },
     {
-      title: 'Table Tennis',
+      title: 'IntelliJ IDEA ',
     },
     {
-      title: 'Guitar Playing',
+      title: 'WebStorm ',
     },
     {
-      title: 'Joke Telling',
-    },
-    {
-      title: 'Duct Tape Crafting',
+      title: 'DataGrip',
     },
   ],
 };
 
 const skill: ISkill.Payload = {
   disable: false,
-  skills: [
-    programmingLanguages,
-    kernelDevelopment,
-    virtualization,
-    automation,
-    networkSecurity,
-    misc,
-  ],
+  skills: [programmingLanguages, kernelDevelopment, automation, networkSecurity, misc],
   tooltip: '1: 기초 수준\n2: 취미 개발 수준\n3: Production 개발 가능 수준',
 };
 

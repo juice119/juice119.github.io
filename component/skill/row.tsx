@@ -1,130 +1,69 @@
-import { Badge, Col, Row } from 'reactstrap';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { PropsWithChildren } from 'react';
 
 import { ISkill } from './ISkill';
-import { Style } from '../common/Style';
-import Util from '../common/Util';
 
-export default function SkillRow({
-  skill,
-  index,
-}: PropsWithChildren<{ skill: ISkill.Skill; index: number }>) {
-  const [isMobileScreen, setIsMobileScreen] = useState(false);
+const RowContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 
-  useEffect(() => {
-    setIsMobileScreen(window.innerWidth < 768);
-    const handleResize = () => {
-      setIsMobileScreen(window.innerWidth < 768);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  return (
-    <div>
-      {index > 0 ? <hr /> : ''}
-      <Row>
-        <Col sm={12} md={3} className="text-md-right">
-          <h4 style={Style.gray}>{skill.category}</h4>
-        </Col>
-        <Col sm={12} md={9}>
-          {/* {skill.items.map((item) => JSON.stringify(item, null, 2))} */}
-          {createCalculatedSkillItems(skill.items, isMobileScreen)}{' '}
-          {/* isVerticalScreen을 인자로 전달 */}
-        </Col>
-      </Row>
-    </div>
-  );
-}
-
-function createCalculatedSkillItems(items: ISkill.Item[], isVerticalScreen: boolean) {
-  const log = Util.debug('SkillRow:createCalculatedSkillItems');
-
-  /**
-   * @developer_commentary 단을 3단, 4단을 시도해봤지만 생각보다 이쁘게 나오지 않았고, 우선은 3단으로 한다. 만약 이쪽을 발전시킨다면 조금 더 이쁘고 능동적이게 데이터를 쪼갤 수 있는 방법을 찾으면 될 듯..
-   */
-  const layer = 3;
-
-  // const splitPoint = layer % 2 ? Math.ceil(items.length / layer) : Math.floor(items.length / layer);
-  const splitPoint = Math.ceil(items.length / layer);
-
-  const list: ISkill.Item[][] = [];
-
-  for (let i = 0, splitAfter = splitPoint; i < layer; i += 1, splitAfter += splitPoint) {
-    list.push(items.slice(splitAfter - splitPoint, i === layer - 1 ? undefined : splitAfter));
+  &:last-child {
+    border-bottom: none;
   }
 
-  log('origin', items, items.length, splitPoint);
-  log('list', list);
-
-  if (isVerticalScreen) {
-    return (
-      <Row className="mt-2 mt-md-0">
-        <Col xs={12}>
-          <ul>
-            {items.map((skill, skillIndex) => {
-              return (
-                <li key={skillIndex.toString()}>
-                  {createBadge(skill.level)}
-                  {skill.title}
-                </li>
-              );
-            })}
-          </ul>
-        </Col>
-      </Row>
-    );
+  @media (max-width: 767px) {
+    flex-direction: column;
+    gap: 0.75rem;
   }
+`;
 
-  return (
-    <Row className="mt-2 mt-md-0">
-      {list.map((skills, index) => {
-        return (
-          <Col md={4} xs={12} key={index.toString()}>
-            <ul>
-              {skills.map((skill, skillIndex) => {
-                return (
-                  <li key={skillIndex.toString()}>
-                    {createBadge(skill.level)}
-                    {skill.title}
-                  </li>
-                );
-              })}
-            </ul>
-          </Col>
-        );
-      })}
-    </Row>
-  );
-}
+const Category = styled.h4`
+  flex: 0 0 30%;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text};
+  text-align: right;
 
-function createBadge(level?: ISkill.Item['level']) {
-  if (!level) {
-    return '';
+  @media (max-width: 767px) {
+    flex: none;
+    width: 100%;
+    text-align: left;
   }
+`;
 
-  const color = (() => {
-    switch (level) {
-      case 3: {
-        return 'primary';
-      }
-      case 2: {
-        return 'secondary';
-      }
-      case 1:
-      default: {
-        return 'light';
-      }
-    }
-  })();
+const SkillList = styled.div`
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+`;
 
+const SkillPill = styled.span`
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 999px;
+  background-color: ${({ theme }) =>
+    theme.mode === 'light' ? '#ffffff' : theme.colors.cardBackground};
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.text};
+  line-height: 1.4;
+`;
+
+export default function SkillRow({ skill }: PropsWithChildren<{ skill: ISkill.Skill }>) {
   return (
-    <span>
-      <Badge pill color={color}>
-        {level}
-      </Badge>{' '}
-    </span>
+    <RowContainer>
+      <Category>{skill.category}</Category>
+      <SkillList>
+        {skill.items.map((item, skillIndex) => (
+          <SkillPill key={skillIndex.toString()}>{item.title}</SkillPill>
+        ))}
+      </SkillList>
+    </RowContainer>
   );
 }
