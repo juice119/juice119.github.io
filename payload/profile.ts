@@ -1,6 +1,6 @@
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faBlog, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { ProfilePayload } from '../types/profile';
 
 const profile: ProfilePayload = {
@@ -20,6 +20,10 @@ const profile: ProfilePayload = {
     {
       link: 'https://github.com/juice119',
       icon: faGithub,
+    },
+    {
+      icon: faBlog,
+      link: 'https://bug-finder.tistory.com',
     },
   ],
   notice: {
