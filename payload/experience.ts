@@ -20,7 +20,7 @@ const experience: ExperiencePayload = {
             { content: 'B2B 서비스 개발 및 확장' },
             {
               content:
-                'AWS SES 메시지 큐를 도입하여 서버 부하를 최소화하고, 최대 50만 건 이상의 대량 이메일을 안정적으로 발송할 수 있는 시스템 구축',
+                'AWS SES, SQS, Lambda로 이벤트 기반 대량 이메일 발송 시스템을 구축하여 서버 부하를 최소화하고, 최대 50만 건 이상의 이메일을 안정적으로 발송할 수 있도록 개선',
             },
           ],
           skillKeywords: ['NestJS', 'PostgreSQL', 'TypeORM', 'AWS', 'Docker-Compose'],
