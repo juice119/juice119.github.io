@@ -28,11 +28,15 @@ const experience: ExperiencePayload = {
         {
           startedAt: '2022-11',
           endedAt: '2023-08',
-          title: '인프런 B2B 신규 서버 추가 및 테스트 코드 도입',
+          title: '인프런 B2B 신규 서버 구축 및 테스트 환경 개선',
           descriptions: [
             {
               content:
-                '통합 테스트 시간 단축을 위해 pg-mem을 도입하여 테스트 시간 4.3초 -> 1.8초로 약 67% 단축',
+                '레거시 프로젝트의 테스트 한계를 개선하기 위해 NestJS 기반 신규 B2B 서버 구축',
+            },
+            {
+              content:
+                'pg-mem을 활용한 In-memory Database 기반 통합 테스트 환경을 구축하여 테스트 시간을 4.3초 → 1.8초(약 58%) 단축하고, 개발 피드백 사이클을 개선',
             },
           ],
           skillKeywords: ['NestJS', 'PostgreSQL', 'TypeORM', 'AWS', 'Docker-Compose'],
