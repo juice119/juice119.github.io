@@ -34,10 +34,6 @@ const experience: ExperiencePayload = {
               content:
                 '통합 테스트 시간 단축을 위해 pg-mem을 도입하여 테스트 시간 4.3초 -> 1.8초로 약 67% 단축',
             },
-            {
-              content:
-                '.husky를 활용해 커밋 시 테스트 커버리지를 검사하여 90% 이상을 유지하며 테스트 코드 품질 관리',
-            },
           ],
           skillKeywords: ['NestJS', 'PostgreSQL', 'TypeORM', 'AWS', 'Docker-Compose'],
         },
